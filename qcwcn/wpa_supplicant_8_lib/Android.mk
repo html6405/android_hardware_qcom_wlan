@@ -21,12 +21,12 @@ ifneq ($(BOARD_WPA_SUPPLICANT_DRIVER),)
   CONFIG_DRIVER_$(BOARD_WPA_SUPPLICANT_DRIVER) := y
 endif
 
-WPA_SUPPL_DIR := external/wpa_supplicant_8
+WPA_SUPPL_DIR = external/wpa_supplicant_8
 WPA_SRC_FILE :=
 
 include $(WPA_SUPPL_DIR)/wpa_supplicant/android.config
 
-WPA_SUPPL_DIR_INCLUDE := $(WPA_SUPPL_DIR)/src \
+WPA_SUPPL_DIR_INCLUDE = $(WPA_SUPPL_DIR)/src \
 	$(WPA_SUPPL_DIR)/src/common \
 	$(WPA_SUPPL_DIR)/src/drivers \
 	$(WPA_SUPPL_DIR)/src/l2_packet \
@@ -38,7 +38,6 @@ WPA_SUPPL_DIR_INCLUDE := $(WPA_SUPPL_DIR)/src \
 ifdef CONFIG_DRIVER_NL80211
 WPA_SUPPL_DIR_INCLUDE += external/libnl/include
 WPA_SRC_FILE += driver_cmd_nl80211_extn.c \
-		driver_cmd_nl80211_sr.c \
 		driver_cmd_nl80211.c
 endif
 
@@ -53,6 +52,10 @@ endif
 
 ifdef CONFIG_P2P
 L_CFLAGS += -DCONFIG_P2P
+endif
+
+ifneq ( ,$(filter S 13, $(PLATFORM_VERSION)))
+L_CFLAGS += -DCONFIG_ANDROID_T
 endif
 
 L_CFLAGS += -Werror
